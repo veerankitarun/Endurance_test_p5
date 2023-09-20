@@ -6,7 +6,7 @@ boolean cycling = false; // Variable to track if cycling is active
 
 void setup() {
   size(200, 160);
-  arduino = new Serial(this, "COM3", 9600); // Replace COMX with your Arduino's COM port
+  arduino = new Serial(this, "COM3", 9600);
   textAlign(CENTER, CENTER);
 }
 
@@ -44,7 +44,7 @@ void draw() {
 void mousePressed() {
   if (mouseX >= 20 && mouseX <= 100 && mouseY >= 110 && mouseY <= 140) {
     // Send a command to start the cycle to Arduino
-    arduino.write('1');
+    arduino.writ('1');
     cycling = true;
   } else if (mouseX >= 100 && mouseX <= 180 && mouseY >= 110 && mouseY <= 140) {
     // Send a command to stop the cycle to Arduino
