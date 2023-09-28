@@ -1,11 +1,13 @@
-// Pin number to which the relay control input is connected
-const int relayPin = 13; // Change this to your chosen GPIO pin
+#include <Arduino.h>
+
+const int relayPin = 13; 
+int cycleCounter = 0;   
 
 void setup() {
-  // Initialize the relay control pin as an output
+  // Initialize 
   pinMode(relayPin, OUTPUT);
 
-  // Start communication with the Serial Monitor
+  // com Serial Monitor
   Serial.begin(9600);
   Serial.println("Relay Control Started");
 }
@@ -17,16 +19,34 @@ void loop() {
   // Calculate the time for each cycle (in milliseconds)
   unsigned long cycleTime = 60000 / cyclesPerMinute;
 
-  // Turn on the relay
-  digitalWrite(relayPin, HIGH);
-  Serial.println("Relay ON");
-  delay(cycleTime / 2); // Keep it on for half of the cycle time
+  // Check if we haven't reached 450 cycles yet
+  if (cycleCounter < 15) {
+    // Increment the cycle counter
+    cycleCounter++;
 
-  // Turn off the relay
-  digitalWrite(relayPin, LOW);
-  Serial.println("Relay OFF");
-  delay(cycleTime / 2); // Keep it off for half of the cycle time
+    // Turn on the relay
+    digitalWrite(relayPin, HIGH);
+    Serial.print("Cycle ");
+    Serial.print(cycleCounter);
+    Serial.println(": Relay ON");
+    delay(cycleTime / 2);
 
-  // Send "CycleCompleted" message to the serial port
-  Serial.println("CycleCompleted");
+  
+    digitalWrite(relayPin, LOW);
+    Serial.print("Cycle ");
+    Serial.print(cycleCounter);
+    Serial.println(": Relay OFF");
+    delay(cycleTime / 2); 
+
+  
+    Serial.print("Cycle ");
+    Serial.print(cycleCounter);
+    Serial.println(": CycleCompleted");
+  } else {
+    
+    Serial.println("450 cycles completed. Stopping.");
+    while (true) {
+      
+    }
+  }
 }
